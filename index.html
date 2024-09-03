@@ -6,35 +6,60 @@
     <title>Auto Login</title>
 </head>
 <body>
+    <h1>Iniciando Sesión...</h1>
     <script>
-        async function autoLogin() {
-            // Reemplaza con el token CSRF válido
-            const csrfToken = 'uYCmUl7UFNnGPLVDsv6a6ZY70TVetwKSbackVouepmIWHs7FxCCL382O0jtjMPrC'; 
+        async function getCsrfToken() {
+            try {
+                const response = await fetch('https://minedwedgevision.com/login', {
+                    credentials: 'include', // Incluye cookies de sesión
+                });
 
-            // Enviar los datos de login al servidor
-            const response = await fetch('https://minedwedgevision.com/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRFToken': csrfToken, // Ajusta según las necesidades del servidor
-                },
-                body: new URLSearchParams({
-                    'username': 'MONEYMANLOOFF',
-                    'password': 'moneymanlooff_',
-                    'csrfmiddlewaretoken': csrfToken,
-                })
-            });
-
-            // Verificar si el login fue exitoso
-            if (response.ok) {
-                // Redirigir a la página de contenido
-                window.location.href = 'https://minedwedgevision.com/scanner';
-            } else {
-                alert('Login fallido');
+                const html = await response.text();
+                const tokenMatch = html.match(/name="csrfmiddlewaretoken" value="([^"]+)"/);
+                
+                if (!tokenMatch) {
+                    throw new Error('No se pudo obtener el token CSRF');
+                }
+                
+                return tokenMatch[1];
+            } catch (error) {
+                console.error('Error obteniendo el token CSRF:', error);
+                alert('Error obteniendo el token CSRF');
+                return null;
             }
         }
 
-        // Ejecutar la función de login al cargar la página
+        async function autoLogin() {
+            try {
+                const csrfToken = await getCsrfToken();
+                if (!csrfToken) return;
+
+                const response = await fetch('https://minedwedgevision.com/do_login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': csrfToken, // Ajusta según sea necesario
+                    },
+                    body: new URLSearchParams({
+                        'username': 'MONEYMANLOOFF',
+                        'password': 'moneymanlooff_',
+                        'csrfmiddlewaretoken': csrfToken,
+                    })
+                });
+
+                if (response.ok) {
+                    console.log('Login exitoso. Redirigiendo...');
+                    window.location.href = 'https://minedwedgevision.com/scanner';
+                } else {
+                    console.error('Login fallido. Código de estado:', response.status);
+                    alert('Login fallido');
+                }
+            } catch (error) {
+                console.error('Error durante el proceso de login:', error);
+                alert('Ocurrió un error durante el login');
+            }
+        }
+
         autoLogin();
     </script>
 </body>
