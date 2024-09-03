@@ -1,237 +1,41 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Mined Wedge Vision</title>
-    <link rel="icon" id="light-scheme-icon" href='/static/images/WEDGE-VISION FAVICON-VERDE.png' type="image/png" sizes="16x16">
-    <link rel="icon" id="dark-scheme-icon" href='/static/images/WEDGE-VISION FAVICON-BLANCO.png' type="image/png" sizes="16x16">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
-    <script type="text/javascript" src='/static/charting_library/charting_library.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
-    <script type="module" src='/static/js/diagonal_main.js'></script>
-    <link rel="stylesheet" href='/static/css/scanner.css'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Login</title>
 </head>
-
 <body>
-<header class="header">
-    <a href="#">
-        <img src='/static/images/WEDGE VISION VERDE@4x-8.png' class="header-logo" />
-    </a>
-    <div class="container-fluid">
-        <div class="row justify-content-between" style="float:right;">
-            <div class="col-auto">
-                <div class="d-flex">
-                    <div class="avatar-container">
-                        <img src='/static/images/avatar.png' id="user_avatar" width="50px" height="50px" class="avatar"/>
-                    </div>
-                    <a href="#" class="notify-bell-lnk">
-                        <img src='/static/images/Asset 1.png' height="25px">
-                    </a>
-                    <div class="switch-container">
-                        <label class="switch">
-                            <input type="checkbox" id="switch-theme" >
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
+    <script>
+        async function autoLogin() {
+            // Reemplaza con el token CSRF válido
+            const csrfToken = 'uYCmUl7UFNnGPLVDsv6a6ZY70TVetwKSbackVouepmIWHs7FxCCL382O0jtjMPrC'; 
 
-                    <div class="btn-group btn-idiom">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <img src='/static/images/idioma.png' height="25px">
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu" style="left: -80px;">
-                            <form action="/i18n/setlang/" method="post">
-                                <input type="hidden" name="csrfmiddlewaretoken" value="tCQNOXdYNtTx4NZMfwzpymG1JWjKcGo3aOqLP0Aix2eNWubOkD50vvKIJmRPvZ5N">
-                                <input name="next" type="hidden" value="/scanner" />
-                                <li style="text-align: center;">
-                                    <button type="submit" class="idioma" title="Español" name="language" value="es">
-                                        Español
-                                    </button>
-                                    <hr>
-                                    <button type="submit" class="idioma" title="English" name="language" value="en">
-                                        English
-                                    </button>
-                                </li>
-                            </form>
-                        </ul>
-                    </div>
-                    <form class="d-flex logout-button" action="/do_logout">
-                        <button type="submit" class="logout">
-                            <img src='/static/images/logout.png' height="25px">
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
+            // Enviar los datos de login al servidor
+            const response = await fetch('https://minedwedgevision.com/do_login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': csrfToken, // Ajusta según las necesidades del servidor
+                },
+                body: new URLSearchParams({
+                    'username': 'MONEYMANLOOFF',
+                    'password': 'moneymanlooff_',
+                    'csrfmiddlewaretoken': csrfToken,
+                })
+            });
 
-<main>
-    <div class="options-container mb-1 mt-0 p-0">
-        <button class="option active left-radius" value="1">M1</button>
-        <button class="option" value="5">M5</button>
-        <button class="option" value="15">M15</button>
-        <button class="option" value="30">M30</button>
-        <button class="option right-radius" value="60">H1</button>
-    </div>
-    <div class="content mb-0 mt-0 p-0">
-        <div class="widget" id="tv_chart_container">
-        </div>
-        <div class="new-panel">
-            <div class="new-panel-son">
-                <div class="row mb-3">
-                    <div class="col-2 pt-2 title-broker text-center">
-                        Broker
-                    </div>
-                    <div class="col-8 broker-combo-parnt">
-                        <select class="form-control broker-combo">
-                            <option value="">Seleccione su broker</option>
-                        </select>
-                    </div>
-                    <div class="col-2 text-cente broker-sphere">
-                        <img class="sphere-broker" src="https://play-lh.googleusercontent.com/pkk17xXx2diP70k4AEC7OnUq5u3bAu3MRYcfnAyEw1hNZ4NmgNA3VbAHOPnmnU9J_A">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="alerts" id="alertPanel">
-                        <div class="w-100 mb-3 card-alert" style="height: 80px;">
-                            <div class="up-down up"></div>
-                            <div class="mid-body">
-                                <div class="mid-body-f"></div>
-                                <div class="mid-body-s"></div>
-                                <div class="mid-body-t"></div>
-                            </div>
-                            <div class="flags">
-                                <div class="sub-card-flag">
-                                    <img src='/static/images/flagseclipse/USDJPY.png'>
-                                </div>
-                                <div class="sub-card-title"></div>
-                            </div>
-                        </div>
-                        <!-- Añade más tarjetas de alerta según sea necesario -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid foot-er">
-        <div class="row justify-content-center foot-cont">
-            <div class="col-md-auto footer-item">
-                <p class="foot-banner-p d-flex">
-                    <a href="https://mined.world/contactanos/" class="footer-link-item" target="_blank">
-                        Contáctanos
-                    </a>
-                    <a href="/privacy" class="footer-link-item" target="_blank">
-                        Políticas de privacidad
-                    </a>
-                </p>
-            </div>
-            <div class="col-md-auto footer-item">
-                <p class="foot-banner-p">MINED WORLD © 2022 Todos los derechos reservados.</p>
-            </div>
-            <div class="col-md-auto footer-item">
-                <p class="foot-banner-p d-flex justify-content-center">
-                    <a class="footer-link-item-social" href="https://mined.world/" target="_blank"><span class="icon-sus"></span></a>
-                    <a class="footer-link-item-social" href="https://www.facebook.com/minedworldoficial" target="_blank">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a class="footer-link-item-social" href="https://www.instagram.com/mined_world_oficial/" target="_blank">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a class="footer-link-item-social" href="https://www.linkedin.com/company/mined-world" target="_blank">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a class="footer-link-item-social" href="https://youtube.com/channel/UC3YNr3D8JvQjwdUhcnpIjpw" target="_blank">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-</main>
-
-<!-- Scripts adicionales -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-C8TCZLY20Z"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-C8TCZLY20Z');
-</script>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
-
-<script>
-const html = document.getElementsByTagName("html")[0];
-$(document).ready(function(){
-    $(".up-down").css("background-image",'url('+'/static/images/flecha arriba.png'+') !important')
-});
-
-const options = document.querySelectorAll(".option");
-options.forEach((option) => {
-    option.addEventListener("click", () => {
-        let current = document.getElementsByClassName("active");
-        current[0].className = current[0].className.replace(" active", "");
-        option.className += " active";
-    });
-});
-
-const alerts = document.querySelectorAll(".alert");
-alerts.forEach((alert) => {
-    alert.addEventListener("click", () => {
-        let current = document.getElementsByClassName("active-alert");
-        current[0].className = current[0].className.replace(" active-alert", "");
-        alert.className += " active-alert";
-    });
-});
-
-function toggle() {
-    if(document.documentElement.getAttribute("data-theme")=="dark"){
-        localStorage.setItem('theme', 'light');
-        document.documentElement.setAttribute('data-theme', 'light');
-    } else {
-        localStorage.setItem('theme', 'dark');
-        document.documentElement.setAttribute('data-theme', 'dark');
-    }
-}
-
-</script>
-
-<script>
-'use strict';
-function setupIcons() {
-    const lightSchemeIcon = document.querySelector('link#light-scheme-icon');
-    const darkSchemeIcon = document.querySelector('link#dark-scheme-icon');
-    function setLight() {
-        document.head.append(lightSchemeIcon);
-        darkSchemeIcon.remove();
-    }
-    function setDark() {
-        lightSchemeIcon.remove();
-        document.head.append(darkSchemeIcon);
-    }
-    const matcher = window.matchMedia('(prefers-color-scheme:dark)');
-    function onUpdate() {
-        if (matcher.matches) {
-            setDark();
-        } else {
-            setLight();
+            // Verificar si el login fue exitoso
+            if (response.ok) {
+                // Redirigir a la página de contenido
+                window.location.href = 'https://minedwedgevision.com/scanner';
+            } else {
+                alert('Login fallido');
+            }
         }
-    }
-    matcher.addListener(onUpdate);
-    onUpdate();
-}
-setupIcons();
-</script>
+
+        // Ejecutar la función de login al cargar la página
+        autoLogin();
+    </script>
 </body>
 </html>
